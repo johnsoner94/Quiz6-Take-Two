@@ -10,6 +10,8 @@
 
 #import "Q6DetailViewController.h"
 
+#import "Task.h"
+
 @interface Q6MasterViewController () {
     NSMutableArray *_objects;
 }
@@ -30,6 +32,8 @@
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
+
+    [self.tableView setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,8 +68,19 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSDate *object = _objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    Task *t = [[Task alloc] init];
+    [cell.textLabel setText: [t taskName]];
+    
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateStyle:NSDateFormatterLongStyle];
+    
+    UIColor *taskColor = [UIColor colorWithRed:t.urgency/10.0 green:1.0-(t.urgency/10.0) blue:0.0 alpha:0.5];
+    [cell.textLabel setTextColor:taskColor];
+    [cell.detailTextLabel setBackgroundColor:[UIColor clearColor]];
+    [cell.textLabel setBackgroundColor:[UIColor clearColor]];
+    
+    [cell.detailTextLabel setText: [NSString stringWithFormat:@"%@ (%.f)", [df stringFromDate:t.dueDate], t.urgency]];
     return cell;
 }
 
@@ -84,6 +99,18 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Q6DetailViewController *dvc = [self.storyboard instantiateViewControllerWithIdentifier:@"TaskView"];
+    NSIndexPath *ip = [tableView indexPathForSelectedRow];
+    Task *t = [tasks objectAtIndex:[ip row]];
+    [dvc setDetailItem:t];
+    [dvc setDismissBlock:^{
+        [[self tableView] reloadData];
+    }];
+    [dvc setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [self presentViewController:dvc animated:YES completion:nil];
+}
 
 /*
 // Override to support rearranging the table view.
@@ -101,13 +128,18 @@
 }
 */
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (BOOL) shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
-    }
+    return NO;
 }
+
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//        NSDate *object = _objects[indexPath.row];
+//        [[segue destinationViewController] setDetailItem:object];
+//    }
+//}
 
 @end

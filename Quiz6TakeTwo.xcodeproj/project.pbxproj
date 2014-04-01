@@ -22,6 +22,7 @@
 		819EBE2318E9BF55006A7EE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819EBE0218E9BF55006A7EE8 /* UIKit.framework */; };
 		819EBE2B18E9BF55006A7EE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 819EBE2918E9BF55006A7EE8 /* InfoPlist.strings */; };
 		819EBE2D18E9BF55006A7EE8 /* Quiz6TakeTwoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 819EBE2C18E9BF55006A7EE8 /* Quiz6TakeTwoTests.m */; };
+		819EBE3818E9BF73006A7EE8 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 819EBE3718E9BF73006A7EE8 /* Task.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		819EBE2818E9BF55006A7EE8 /* Quiz6TakeTwoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Quiz6TakeTwoTests-Info.plist"; sourceTree = "<group>"; };
 		819EBE2A18E9BF55006A7EE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		819EBE2C18E9BF55006A7EE8 /* Quiz6TakeTwoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Quiz6TakeTwoTests.m; sourceTree = "<group>"; };
+		819EBE3618E9BF73006A7EE8 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
+		819EBE3718E9BF73006A7EE8 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +118,8 @@
 		819EBE0418E9BF55006A7EE8 /* Quiz6TakeTwo */ = {
 			isa = PBXGroup;
 			children = (
+				819EBE3618E9BF73006A7EE8 /* Task.h */,
+				819EBE3718E9BF73006A7EE8 /* Task.m */,
 				819EBE0D18E9BF55006A7EE8 /* Q6AppDelegate.h */,
 				819EBE0E18E9BF55006A7EE8 /* Q6AppDelegate.m */,
 				819EBE1018E9BF55006A7EE8 /* Main.storyboard */,
@@ -255,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				819EBE3818E9BF73006A7EE8 /* Task.m in Sources */,
 				819EBE1818E9BF55006A7EE8 /* Q6DetailViewController.m in Sources */,
 				819EBE1518E9BF55006A7EE8 /* Q6MasterViewController.m in Sources */,
 				819EBE0B18E9BF55006A7EE8 /* main.m in Sources */,

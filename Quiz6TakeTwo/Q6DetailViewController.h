@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Task.h"
 
-@interface Q6DetailViewController : UIViewController
+@interface Q6DetailViewController : UIViewController <UITextFieldDelegate>
+
+@property (nonatomic, retain) Task *task;
 
 @property (strong, nonatomic) id detailItem;
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+
+@property (nonatomic, copy) void (^dismissBlock)(void);
 @end
