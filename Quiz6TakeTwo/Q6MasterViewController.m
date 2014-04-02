@@ -27,13 +27,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setTitle:@"My Tasks"];
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:) name:@"DetailDone" object:nil];
+    
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
 
     [self.tableView setDelegate:self];
+}
+
+- (void) refreshView:(NSNotification *)notification {
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,7 +54,7 @@
     if (!_objects) {
         _objects = [[NSMutableArray alloc] init];
     }
-    [_objects insertObject:[NSDate date] atIndex:0];
+    [_objects insertObject:[[Task alloc] init] atIndex:0];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
@@ -68,19 +75,18 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    Task *t = [[Task alloc] init];
-    [cell.textLabel setText: [t taskName]];
+    Task *t = _objects[indexPath.row];
     
     
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateStyle:NSDateFormatterLongStyle];
     
-    UIColor *taskColor = [UIColor colorWithRed:t.urgency/10.0 green:1.0-(t.urgency/10.0) blue:0.0 alpha:0.5];
-    [cell.textLabel setTextColor:taskColor];
+    [cell.textLabel setText: t.taskName];
+    [cell.textLabel setTextColor:[UIColor colorWithRed:t.urgency green:1.-[t urgency] blue:0.0 alpha:1]];
     [cell.detailTextLabel setBackgroundColor:[UIColor clearColor]];
     [cell.textLabel setBackgroundColor:[UIColor clearColor]];
     
-    [cell.detailTextLabel setText: [NSString stringWithFormat:@"%@ (%.f)", [df stringFromDate:t.dueDate], t.urgency]];
+    [cell.detailTextLabel setText: [NSString stringWithFormat:@"%@ (%.f)", [df stringFromDate:t.dueDate], t.urgency*10]];
     return cell;
 }
 
@@ -102,8 +108,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Q6DetailViewController *dvc = [self.storyboard instantiateViewControllerWithIdentifier:@"TaskView"];
-    NSIndexPath *ip = [tableView indexPathForSelectedRow];
-    Task *t = [tasks objectAtIndex:[ip row]];
+    Task *t = [_objects objectAtIndex:[indexPath row]];
     [dvc setDetailItem:t];
     [dvc setDismissBlock:^{
         [[self tableView] reloadData];
@@ -133,13 +138,6 @@
     return NO;
 }
 
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//        NSDate *object = _objects[indexPath.row];
-//        [[segue destinationViewController] setDetailItem:object];
-//    }
-//}
+
 
 @end

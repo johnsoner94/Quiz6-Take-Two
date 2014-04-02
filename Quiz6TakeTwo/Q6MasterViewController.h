@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface Q6MasterViewController : UITableViewController
-{
-    NSMutableArray *tasks;
-}
+
 
 @end

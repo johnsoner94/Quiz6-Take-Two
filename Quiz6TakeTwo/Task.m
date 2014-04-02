@@ -19,7 +19,7 @@
     {
         _taskName = @"New Task";
         _dueDate = [NSDate date];
-        _urgency = 5;
+        _urgency = 0.5;
     }
     return self;
 }

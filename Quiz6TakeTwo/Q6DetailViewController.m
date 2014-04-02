@@ -29,29 +29,23 @@
         _detailItem = newDetailItem;
         
         // Update the view.
-        [self configureView];
+        // YOU TRIED TO UPDATE THE VIEW BEFORE IT WAS CREATED
+        // [self configureView];
     }
 }
 
 - (IBAction)urgencyValueChanged:(id)sender
 {
     UISlider *s = sender;
-    [self.urgencyLabel setText: [NSString stringWithFormat:@"Urgency: %.2f", s.value]];
+    [self.urgencyLabel setText: [NSString stringWithFormat:@"Urgency: %.f", s.value*10]];
 }
 
 - (IBAction)saved:(id)sender
 {
-    if ([self.urgencySlider value]<6) {
-        [self.detailDescriptionLabel setTextColor:[UIColor greenColor]];
-    }
-    else
-    {
-        [self.detailDescriptionLabel setTextColor:[UIColor redColor]];
-    }
-    [self.task setTaskName:[self.taskName text]];
-    [self.task setUrgency:[self.urgencySlider value]];
-    [self.task setDueDate:[self.datePicker date]];
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:dismissBlock];
+    [self.detailItem setTaskName:[self.taskName text]];
+    [self.detailItem setUrgency:[self.urgencySlider value]];
+    [self.detailItem setDueDate:[self.datePicker date]];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:[self dismissBlock]];
 }
 
 - (void)configureView
@@ -59,7 +53,10 @@
     // Update the user interface for the detail item.
 
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        self.taskName.text = [self.detailItem taskName];
+        self.urgencySlider.value = [self.detailItem urgency];
+        self.urgencyLabel.text = [NSString stringWithFormat:@"Urgency: %.f",[self.detailItem urgency]*10];
+        self.datePicker.date = [self.detailItem dueDate];
     }
 }
 
@@ -67,7 +64,7 @@
 {
     [super viewDidLoad];
     // set the text field as the delegate
-    self.taskName.delegate = self;
+    [self.taskName setDelegate:self];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
